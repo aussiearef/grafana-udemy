@@ -1,5 +1,4 @@
 import logging
-import json
 from datetime import datetime
 import time
 import random
