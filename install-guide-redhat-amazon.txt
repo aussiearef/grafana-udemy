@@ -1,0 +1,9 @@
+sudo yum install -y https://dl.grafana.com/oss/release/grafana-10.2.2-1.x86_64.rpm
+
+sudo systemctl enable grafana-server
+sudo systemctl start grafana-server
+sudo systemctl status grafana-server
+
+Ref: 
+https://grafana.com/grafana/download?edition=oss
+
