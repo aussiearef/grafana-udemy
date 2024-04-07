@@ -11,7 +11,7 @@
 
 This repository belongs to Grafana from Beginner to Advanced [](https://www.udemy.com/course/grafana-graphite-and-statsd-visualize-metrics/?referralCode=F9360D03CB430529BEAD)
 
-The course covers the installation of Grafana, Graphite and Loki on-prem and their usage either on-prem or on the cloud. It also includes integrations with various databases such as InfluxDB, MySQL, Elasticsearch, SQL Server and Prometheus.
+The course covers the installation of Grafana, Graphite, and Loki on-prem and their usage, either on-prem or in the cloud. It also includes integrations with various databases such as InfluxDB, MySQL, Elasticsearch, SQL Server, and Prometheus.
 
 ## More Free Courses on YouTube
 
@@ -20,3 +20,8 @@ The course covers the installation of Grafana, Graphite and Loki on-prem and the
 Subscribe to the Free Technology and Technology Management Courses channel for free lectures about Coding, DevOps, and Technology Management. [Here is the link to the YouTube channel](http://www.youtube.com/@FreeTechnologyLectures).
 
 
+## Buy me a coffee ☕
+
+If you find my work helpful, consider treating me by buying coffee!
+
+<a href="https://ko-fi.com/arefkarimi"><img src="https://storage.ko-fi.com/cdn/kofi2.png?v=3" alt="ko-fi" height="36"></a>
