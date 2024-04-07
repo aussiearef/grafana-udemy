@@ -13,3 +13,10 @@ This repository belongs to Grafana from Beginner to Advanced [](https://www.udem
 
 The course covers the installation of Grafana, Graphite and Loki on-prem and their usage either on-prem or on the cloud. It also includes integrations with various databases such as InfluxDB, MySQL, Elasticsearch, SQL Server and Prometheus.
 
+## More Free Courses on YouTube
+
+[![YouTube](https://img.shields.io/badge/YouTube-Subscribe-red?style=flat&logo=youtube)](http://www.youtube.com/@FreeTechnologyLectures)
+
+Subscribe to the Free Technology and Technology Management Courses channel for free lectures about Coding, DevOps, and Technology Management. [Here is the link to the YouTube channel](http://www.youtube.com/@FreeTechnologyLectures).
+
+
