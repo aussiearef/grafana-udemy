@@ -1,6 +1,7 @@
 # Common IntelliJ Platform excludes
 
 # User specific
+**/.idea/*
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml
 **/.idea/shelf/*
@@ -32,3 +33,4 @@ _UpgradeReport_Files/
 Thumbs.db
 Desktop.ini
 .DS_Store
+__pycache__
