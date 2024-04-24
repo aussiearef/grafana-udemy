@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
@@ -9,74 +8,76 @@ var builder = WebApplication.CreateBuilder(args);
 var metricCollectorUrl = builder.Configuration["OtelMetricCollector:Host"] ?? "";
 var traceCollectorUrl = builder.Configuration["OtelTraceCollector:Host"] ?? "";
 
+const string serviceName = "Order Service";
+const string serviceVersion = "1.0.0";
+var meterName = $"{serviceName}.meter";
+
 builder.Services
+    .AddSingleton(TracerProvider.Default.GetTracer(serviceName))
     .AddMetrics()
     .AddOpenTelemetry()
-    .ConfigureResource(r =>
-    {
-        r.AddService("OrderService");
-    })
     .WithMetrics(m =>
     {
-        m.AddMeter("OrderServiceMeter")
+        m.SetResourceBuilder(ResourceBuilder.CreateDefault()
+                .AddService(serviceName, serviceVersion: serviceVersion))
+            .AddMeter(meterName)
             .AddOtlpExporter(o =>
             {
                 o.Protocol = OtlpExportProtocol.HttpProtobuf;
                 o.Endpoint = new Uri(metricCollectorUrl);
             })
             .AddConsoleExporter();
-
     })
     .WithTracing(t =>
     {
-        t.AddSource("Order Service APIs")
-            .AddConsoleExporter()
+        t.AddSource(serviceName)
+            .SetResourceBuilder(
+                ResourceBuilder.CreateDefault()
+                    .AddService(serviceName, serviceVersion: serviceVersion))
+            .AddAspNetCoreInstrumentation()
             .AddOtlpExporter(o =>
             {
                 o.Protocol = OtlpExportProtocol.HttpProtobuf;
                 o.Endpoint = new Uri(traceCollectorUrl);
-            });
+            })
+            .AddConsoleExporter();
     });
 
 
 var app = builder.Build();
 
-Counter<int>? otlOrderCount = null;
 
-ActivitySource.AddActivityListener(new ActivityListener()
+app.MapGet("/", (HttpContext context, Tracer tracer, IMeterFactory metricFactory) =>
 {
-    ActivityStarted = r =>
-    {
-        Console.WriteLine($"Activity {r.DisplayName} started.");
-    }
-});
-app.MapGet("/", async (context) =>
-{
-    using var activity = Activity.Current?.Start();
-    activity.SetTag("Service", "Order");
-    activity.DisplayName = "Order Processing";
+    #region Metric collection
 
-    var metricFactory = context.RequestServices.GetService<IMeterFactory>();
-    var meter = metricFactory?.Create(new MeterOptions("OrderServiceMeter"));
-    otlOrderCount = meter?.CreateCounter<int>("otel_order");
-
+    var meter = metricFactory?.Create(new MeterOptions(meterName));
+    var otlOrderCount = meter?.CreateCounter<int>("otel_order");
     otlOrderCount?.Add(1);
 
-    using (var step1Activity = activity.Start()) // Create child spans within the root activity
+    #endregion
+
+    #region trace
+
+    using var dbSpan = tracer.StartActiveSpan("Connecting to DB");
+
+    try
     {
-        step1Activity.SetTag("Step", "Get Customer Info.");
-        step1Activity.DisplayName = "Customer Info";
-        step1Activity.SetStatus(ActivityStatusCode.Ok);
-            
+        dbSpan.SetAttribute("db-name", "prod-sql");
+        dbSpan.SetAttribute("connection-status", "success");
+        dbSpan.SetAttribute("Query result count", "1");
+        dbSpan.SetStatus(Status.Ok);
+    }
+    catch (Exception e)
+    {
+        dbSpan.SetStatus(Status.Error);
+        dbSpan.RecordException(e);
+        Console.WriteLine(e);
+        // throw ?
     }
 
-    using (var step2Activity = activity.Start())
-    {
-        step2Activity.SetTag("Step", "Get Shipping Info.");
-        step2Activity.DisplayName = "Shipping Info";
-        step2Activity.SetStatus(ActivityStatusCode.Ok);
-    }
+    #endregion
 
-    activity.SetStatus(ActivityStatusCode.Ok); // Set status on root activity
+    return "OK";
 });
 app.Run();

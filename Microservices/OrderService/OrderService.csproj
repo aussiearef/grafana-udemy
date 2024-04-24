@@ -10,24 +10,24 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="OpenTelemetry" Version="1.8.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.8.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.0" />
-        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.8.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
+        <PackageReference Include="OpenTelemetry" Version="1.8.0"/>
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.8.0"/>
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.0"/>
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.8.0"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="OTEL_DIAGNOSTICS.json" />
+        <Content Remove="OTEL_DIAGNOSTICS.json"/>
     </ItemGroup>
 
 </Project>
