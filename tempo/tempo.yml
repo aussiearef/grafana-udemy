@@ -20,7 +20,7 @@ metrics_generator:
   storage:
     path: /tmp/tempo/generator/wal
     remote_write:
-      - url: http://localhost:9090/api/v1/write
+      - url: http://admin:password@localhost:9090/api/v1/write
         send_exemplars: true
 
 storage:
@@ -30,6 +30,16 @@ storage:
       path: /tmp/tempo/traces      # Set to correct path on your computer
     wal:
       path: /tmp/tempo/wal         # Set to correct path on your computer
+
+#storage:
+#  trace:
+#    backend: s3                 
+#    s3:
+#      bucket: your-s3-bucket-name
+#      region: your-region
+#      access_key: your-access-key  # not needed if role_arn is used.
+#      secret_key: your-secret-key  # not needed if role_arn is used.
+#      role_arn: arn:aws:iam::123456789012:role/your-tempo-role
 
 overrides:
   defaults:
