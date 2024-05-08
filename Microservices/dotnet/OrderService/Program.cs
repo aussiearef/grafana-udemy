@@ -80,10 +80,13 @@ app.MapGet("/",
         var parentSpanContext = httpSpan.Context;
         var activity = Activity.Current?.SetParentId(parentSpanContext.TraceId, parentSpanContext.SpanId);
 
-        var propagationContext = new PropagationContext(activity.Context, Baggage.Current);
+        if (activity != null)
+        {
+            var propagationContext = new PropagationContext(activity.Context, Baggage.Current);
 
-        propagator.Inject(propagationContext, paymentRequest.Headers,
-            (headers, name, value) => { headers.Add(name, value); });
+            propagator.Inject(propagationContext, paymentRequest.Headers,
+                (headers, name, value) => { headers.Add(name, value); });
+        }
 
         // End passing trace context
         try
