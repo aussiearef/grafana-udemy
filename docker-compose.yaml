@@ -1,44 +1,34 @@
-# Stand up Prometheus, Grafana, Loki and Tempo stack 
 version: "3"
 services:
 
   tempo:
     image: grafana/tempo:latest
-    command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
-      - ../shared/tempo.yaml:/etc/tempo.yaml # Set the host path to your computer's path.
-      - ./tempo-data:/tmp/tempo # Set the host path to your computer's path.
+      - ./shared/tempo:/etc
+      - ./tempo-data:/var/tempo
     ports:
-      - "14268:14268"  # jaeger ingest
-      - "3200:3200"   # tempo
-      - "9095:9095" # tempo grpc
-      - "4317:4317"  # otlp grpc
-      - "4318:4318"  # otlp http
-      - "9411:9411"   # zipkin
-
-  k6-tracing:
-    image: ghcr.io/grafana/xk6-client-tracing:latest
-    environment:
-      - ENDPOINT=tempo:4317
-    restart: always
-    depends_on:
-      - tempo
+      - "4320:4317"  # otlp grpc
+      - "4321:4318"  # otlp http
+    entrypoint: sh -c "wget --no-check-certificate -O /etc/tempo.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/tempo/tempo.yml && exec /tempo -config.file=/etc/tempo.yml"
 
   prometheus:
     image: prom/prometheus:latest
     command:
-      - --config.file=/etc/prometheus.yaml
+      - --config.file=/etc/prometheus/prometheus.yml
       - --web.enable-remote-write-receiver
       - --enable-feature=exemplar-storage
     volumes:
-      - ../shared/prometheus.yaml:/etc/prometheus.yaml
+      - type: bind
+        source: /Users/aref/Documents/GitHub/grafana-udemy/shared/prometheus/
+        target: /etc/prometheus/
     ports:
       - "9090:9090"
+
 
   grafana:
     image: grafana/grafana:10.2.2
     volumes:
-      - ../shared/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ./shared/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
@@ -46,3 +36,37 @@ services:
       - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor traceQLStreaming metricsSummary
     ports:
       - "3000:3000"
+
+  loki:
+    image: grafana/loki:latest
+    command:
+      - "-config.file=/etc/loki/local-config.yaml"  
+    volumes:
+      - ./shared/loki:/etc/loki
+      - prometheus-data:/data  
+    ports:
+      - "3100:3100"
+
+  promtail:
+    image: grafana/promtail:latest
+    command:
+      - "-write=http://loki:3100/loki/api/v1/push"   
+    volumes:
+      - ./shared/promtail:/etc/promtail
+      - ./host-logs:/var/log   
+    depends_on:
+      - loki   
+
+  alloy:
+    image: grafana/alloy:latest  
+    command:
+      - "-config.file=/etc/alloy/config.alloy"  
+    volumes:
+      - ./shared/alloy:/etc/alloy
+    ports:
+      - "4317:4317"  
+      - "4318:4318"  
+
+volumes:
+  prometheus-data:
+  tempo-data:
