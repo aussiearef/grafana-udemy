@@ -14,10 +14,7 @@ rule_files:
 
 alerting:
   alertmanagers:
-  - scheme: https
-    tls_config:
-      ca_file: /usr/local/etc/prom.crt
-      server_name: 'localhost'
+  - scheme: http
     basic_auth:
       username: "admin"
       password: "password"
