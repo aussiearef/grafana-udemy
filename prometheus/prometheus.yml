@@ -1,12 +1,11 @@
 global:
-  scrape_interval: 2s
+  scrape_interval: 5s
 
 scrape_configs:
-  - job_name: 'my_targets'
+  - job_name: 'shoehub'
     static_configs:
       - targets:
-          - localhost:8030
-          - localhost:12345
+          - shoehub:8001
 
 rule_files:
   - "rule/alerts.yml"

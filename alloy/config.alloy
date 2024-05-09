@@ -5,7 +5,7 @@ logging {
 
 otelcol.receiver.otlp "default" {
   http {
-    endpoint="0.0.0.0:4320"
+    endpoint="0.0.0.0:4318"
   }
 
   output {
@@ -21,7 +21,7 @@ otelcol.processor.batch "default" {
 
 otelcol.exporter.otlphttp "tempo" {
     client {
-        endpoint = "http://localhost:4318"
+        endpoint = "http://tempo:4321"
         tls {
             insecure             = true
             insecure_skip_verify = true
