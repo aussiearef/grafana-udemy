@@ -5,7 +5,7 @@ scrape_configs:
   - job_name: 'shoehub'
     static_configs:
       - targets:
-          - shoehub:8001
+          - shoehub:8080
 
 rule_files:
   - "rule/alerts.yml"
