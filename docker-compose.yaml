@@ -13,47 +13,27 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-      - --web.enable-remote-write-receiver
-      - --enable-feature=exemplar-storage
     volumes:
-      - type: bind
-        source: /Users/aref/Documents/GitHub/grafana-udemy/shared/prometheus/
-        target: /etc/prometheus/
+      - ./shared/prometheus:/etc/prometheus
     ports:
       - "9090:9090"
-
-
-  grafana:
-    image: grafana/grafana:10.2.2
-    volumes:
-      - ./shared/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor traceQLStreaming metricsSummary
-    ports:
-      - "3000:3000"
+    entrypoint: sh -c "wget --no-check-certificate -O /etc/prometheus/prometheus-local.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/prometheus/prometheus.yml && exec /bin/prometheus --config.file=/etc/prometheus/prometheus-local.yml --web.enable-remote-write-receiver"
 
   loki:
     image: grafana/loki:latest
     command:
       - "-config.file=/etc/loki/local-config.yaml"  
     volumes:
-      - ./shared/loki:/etc/loki
-      - prometheus-data:/data  
+      - ./shared/loki/chunks:/loki/chunks/
+      - ./shared/loki/rules:/loki/rules/
     ports:
       - "3100:3100"
 
   promtail:
     image: grafana/promtail:latest
     command:
-      - "-write=http://loki:3100/loki/api/v1/push"   
-    volumes:
-      - ./shared/promtail:/etc/promtail
-      - ./host-logs:/var/log   
+      - "-config.file=/etc/promtail/config.yml"   
+      - ./shared/logs:/var/log   
     depends_on:
       - loki   
 
@@ -66,6 +46,19 @@ services:
     ports:
       - "4317:4317"  
       - "4318:4318"  
+    entrypoint: sh -c "apt-get update -y && apt-get -y install wget && wget --no-check-certificate -O /etc/alloy/config.alloy https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/alloy/config.alloy && exec /bin/alloy run /etc/alloy/config.alloy"
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./shared/grafana/provisioning/datasources/:/etc/grafana/provisioning/datasources
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    ports:
+      - "3000:3000"
+    entrypoint: sh -c "wget --no-check-certificate -O /etc/grafana/provisioning/datasources/datasources.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/datasources.yml && exec sh /run.sh"
 
 volumes:
   prometheus-data:
