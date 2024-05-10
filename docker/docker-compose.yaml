@@ -64,6 +64,20 @@ services:
     ports:
       - "8001:8080"
 
+  orderservice:
+    image: aussiearef/orderservice
+  
+  paymentservice:
+    image: aussiearef/paymentservice
+  
+  stimulator:
+    image: aussiearef/stimulator
+    depends_on:
+      - orderservice
+      - paymentservice 
+
+  
+
 
 
 volumes:

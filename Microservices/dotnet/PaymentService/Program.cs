@@ -8,6 +8,12 @@ using PaymentService;
 var builder = WebApplication.CreateBuilder(args);
 var traceCollectorUrl = builder.Configuration["OtelTraceCollector:Host"] ?? "";
 
+if (builder.Environment.IsProduction())
+{
+    traceCollectorUrl = traceCollectorUrl.Replace("localhost", "alloy"); // set to docker container name of Alloy
+    Console.WriteLine("Alloy address is set to http://alloy:4318/");
+}
+
 const string serviceName = "Payment Service";
 const string serviceVersion = "1.0.0";
 
@@ -59,4 +65,6 @@ app.MapGet("/", (HttpContext httpContext, Tracer tracer) =>
 
     return "OK";
 });
+
+
 app.Run();

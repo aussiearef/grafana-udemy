@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
+using System.Net.Mime;
 using OpenTelemetry;
 using OpenTelemetry.Context.Propagation;
 using OpenTelemetry.Exporter;
@@ -10,6 +11,13 @@ using OpenTelemetry.Trace;
 var builder = WebApplication.CreateBuilder(args);
 var metricCollectorUrl = builder.Configuration["OtelMetricCollector:Host"] ?? "";
 var traceCollectorUrl = builder.Configuration["OtelTraceCollector:Host"] ?? "";
+
+if (builder.Environment.IsProduction())
+{
+    traceCollectorUrl = traceCollectorUrl.Replace("localhost", "alloy"); // set to docker container name of Alloy
+    metricCollectorUrl = metricCollectorUrl.Replace("localhost", "alloy");
+    Console.WriteLine("Alloy address is set to http://alloy:4318/");
+}
 
 const string serviceName = "Order Service";
 const string serviceVersion = "1.0.0";
@@ -54,6 +62,9 @@ var app = builder.Build();
 app.MapGet("/",
     async (Tracer tracer, IMeterFactory metricFactory, IHttpClientFactory httpClientFactory) =>
     {
+        
+        var isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
+        
         #region Metric collection
 
         var meter = metricFactory.Create(new MeterOptions(meterName));
@@ -69,8 +80,8 @@ app.MapGet("/",
         httpSpan.SetAttribute("comms", "api");
         httpSpan.SetAttribute("protocol", "http");
         httpSpan.SetStatus(Status.Ok);
-
-        const string paymentServiceUrl = "http://localhost:5001";
+       
+        var paymentServiceUrl = isProduction ? "http://paymentservice:8080": "http://localhost:5001";
         var httpClient = httpClientFactory.CreateClient();
         var paymentRequest = new HttpRequestMessage(HttpMethod.Get, paymentServiceUrl);
 
@@ -98,7 +109,7 @@ app.MapGet("/",
             return "Run the Payment Service First.";
         }
 
-        activity.Stop();
+        activity?.Stop();
 
         #endregion
 
