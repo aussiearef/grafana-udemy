@@ -13,7 +13,7 @@ datasources:
   - name: Tempo
     type: tempo
     access: proxy
+    basicAuth: true
     url: http://tempo:3200
-    metricsGenerator:
-      enabled: true
-      datasource: Prometheus
+    tracesToMetrics:
+      datasourceUid: 'Prometheus'
