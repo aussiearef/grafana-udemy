@@ -14,3 +14,6 @@ datasources:
     type: tempo
     access: proxy
     url: http://tempo:3200
+    metricsGenerator:
+      enabled: true
+      datasource: Prometheus

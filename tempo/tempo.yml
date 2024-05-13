@@ -20,7 +20,8 @@ metrics_generator:
   storage:
     path: /tmp/tempo/generator/wal
     remote_write:
-      - url: http://admin:password@localhost:9090/api/v1/write
+      - url: http://admin:password@prometheus:9090/api/v1/write    # if you use as part of Docker Compose, use this line.
+      # - url: http://admin:password@localhost:9090/api/v1/write   # if you run locally, use this line.
         send_exemplars: true
 
 storage:
