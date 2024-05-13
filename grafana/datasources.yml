@@ -15,5 +15,6 @@ datasources:
     access: proxy
     basicAuth: true
     url: http://tempo:3200
-    tracesToMetrics:
-      datasourceUid: 'Prometheus'
+    jsonData:
+      tracesToMetrics:
+        datasourceUid: 'Prometheus'
