@@ -1,0 +1,58 @@
+logging {
+  level  = "debug"
+  format = "logfmt"
+}
+
+otelcol.receiver.otlp "default" {
+  http {
+    endpoint="0.0.0.0:4318"
+  }
+
+  output {
+    traces  = [otelcol.processor.batch.default.input]
+    logs    = [otelcol.processor.batch.default_logs.input]  # Added logs processing
+    metrics = [otelcol.processor.batch.default_metrics.input]  # Added metrics processing
+  }
+}
+
+otelcol.processor.batch "default" {
+  output {
+    traces = [otelcol.exporter.otlphttp.tempo.input]
+  }
+}
+
+otelcol.processor.batch "default_logs" {  # New batch processor for logs
+  output {
+    logs = [otelcol.exporter.otlphttp.loki.input]
+  }
+}
+
+otelcol.processor.batch "default_metrics" {  # New batch processor for metrics
+  output {
+    metrics = [otelcol.exporter.prometheus.default.input]
+  }
+}
+
+otelcol.exporter.otlphttp "tempo" {
+    client {
+        endpoint = "http://tempo:4318"
+        tls {
+            insecure             = true
+            insecure_skip_verify = true
+        }
+    }
+}
+
+otelcol.exporter.otlphttp "loki" {  # New exporter for logs
+    client {
+        endpoint = "http://loki:3100"
+        tls {
+            insecure             = true
+            insecure_skip_verify = true
+        }
+    }
+}
+
+otelcol.exporter.prometheus "default" {  # New exporter for metrics
+    endpoint = "0.0.0.0:9090"
+}
