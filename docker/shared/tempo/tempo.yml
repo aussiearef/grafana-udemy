@@ -1,11 +1,12 @@
 server:
-  http_listen_port: 3200
+  http_listen_port: 4318
 
 distributor:
   receivers:
     otlp:
       protocols:
         http:
+        grpc:
 
 compactor:
   compaction:

@@ -6,8 +6,7 @@ services:
       - ./shared/tempo:/etc
       - ./tempo-data:/var/tempo
     ports:
-      - "4320:4317"  # otlp grpc
-      - "4321:4318"  # otlp http
+      - "3200:3200"  # otlp http
     entrypoint: sh -c "wget --no-check-certificate -O /etc/tempo.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/tempo/tempo.yml && exec /tempo -config.file=/etc/tempo.yml"
 
   prometheus:

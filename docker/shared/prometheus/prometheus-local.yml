@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'shoehub'
+    static_configs:
+      - targets:
+          - shoehub:8080
+
+rule_files:
+  - "rule/alerts.yml"
+  - "rule/recording_rule.yml"
+
+alerting:
+  alertmanagers:
+  - scheme: http
+    basic_auth:
+      username: "admin"
+      password: "password"
+  - static_configs:
+    - targets:
+       - localhost:9093
+
+
