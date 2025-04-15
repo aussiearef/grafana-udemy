@@ -11,7 +11,7 @@ var traceCollectorUrl = builder.Configuration["OtelTraceCollector:Host"] ?? "";
 if (builder.Environment.IsProduction())
 {
     traceCollectorUrl = traceCollectorUrl.Replace("localhost", "alloy"); // set to docker container name of Alloy
-    Console.WriteLine("Alloy address is set to http://alloy:4318/");
+    Console.WriteLine($"Alloy address is set to {traceCollectorUrl}");
 }
 
 const string serviceName = "Payment Service";

@@ -63,7 +63,7 @@ app.MapGet("/",
     async (Tracer tracer, IMeterFactory metricFactory, IHttpClientFactory httpClientFactory) =>
     {
         
-        var isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
+        var isProduction = builder.Environment.IsProduction();
         
         #region Metric collection
 
@@ -102,6 +102,7 @@ app.MapGet("/",
         // End passing trace context
         try
         {
+            Console.WriteLine($"Calling Payment Service at {paymentServiceUrl}");
             await httpClient.SendAsync(paymentRequest);
         }
         catch

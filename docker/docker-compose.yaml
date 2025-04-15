@@ -66,9 +66,15 @@ services:
 
   orderservice:
     image: aussiearef/orderservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - paymentservice 
   
   paymentservice:
     image: aussiearef/paymentservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
   
   stimulator:
     image: aussiearef/stimulator
