@@ -1,11 +1,14 @@
 server:
   http_listen_port: 3200
+  grpc_listen_port: 3300
 
 distributor:
-  receivers:
+  receivers: 
     otlp:
       protocols:
         http:
+          endpoint: "0.0.0.0:4318"  # Replace 3200 with your desired port number
+
 
 compactor:
   compaction:
@@ -45,3 +48,4 @@ overrides:
   defaults:
     metrics_generator:
       processors: [service-graphs, span-metrics]
+    

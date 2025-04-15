@@ -21,7 +21,7 @@ otelcol.processor.batch "default" {
 
 otelcol.exporter.otlphttp "tempo" {
     client {
-        endpoint = "http://tempo:4318"
+        endpoint = "http://tempo:3200"
         tls {
             insecure             = true
             insecure_skip_verify = true
