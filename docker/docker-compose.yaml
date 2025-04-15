@@ -54,6 +54,7 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=false
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=false
+      - GF_HTTP_TLS_SKIP_VERIFY=true
     ports:
       - "3000:3000"
     entrypoint: sh -c "wget --no-check-certificate -O /etc/grafana/provisioning/datasources/datasources.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/datasources.yml && exec sh /run.sh"
