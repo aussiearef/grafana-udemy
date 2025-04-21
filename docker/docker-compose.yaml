@@ -71,7 +71,7 @@ services:
       - "3000:3000"
     entrypoint: sh -c "
       mkdir -p /var/lib/grafana/dashboards &&
-      wget --no-check-certificate -O /var/lib/grafana/dashboards/ShoeHub_Dashboard.json https://raw.githubusercontent.com/aussiearef/grafana-udemy/990bdcd62d941a7fd7510baa7f0bcfa968489c8d/grafana/ShoeHub_Dashboard.json &&
+      wget --no-check-certificate -O /var/lib/grafana/dashboards/ShoeHub_Dashboard.json https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/ShoeHub_Dashboard.json &&
       wget --no-check-certificate -O /etc/grafana/provisioning/dashboards/dashboards.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/dashboards.yml &&
       wget --no-check-certificate -O /etc/grafana/provisioning/datasources/datasources.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/datasources.yml &&
       exec /run.sh"
