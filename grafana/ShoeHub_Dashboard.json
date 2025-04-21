@@ -24,7 +24,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "fbf60d77-498e-44c9-b44b-86829d27fa17"
       },
       "fieldConfig": {
         "defaults": {
@@ -635,7 +635,7 @@
     ]
   },
   "timezone": "",
-  "title": "ShoeHub Business Dashboard (No Variables)",
+  "title": "ShoeHub Business Dashboard",
   "uid": "shoehub-business-no-vars",
-  "version": 1
+  "version": 4
 }
