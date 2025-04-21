@@ -1,20 +1,5 @@
 {
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
-  },
+
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -24,7 +9,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "fbf60d77-498e-44c9-b44b-86829d27fa17"
+        "name": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -83,7 +68,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "name": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -144,7 +129,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "name": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -237,7 +222,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "name": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -299,7 +284,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "name": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -361,7 +346,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "name": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -439,7 +424,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "name": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -515,7 +500,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "name": "Prometheus"
       },
       "fieldConfig": {
         "defaults": {
