@@ -60,4 +60,14 @@ Metrics are sent to http://localhost:4318/v1/metrics
 
 Traces are sent to http://localhost:4318/v1/traces
 
-These are the default OpenTelemetry ports used by Grafana Alloy. If your Alloy instance uses different ports or a remote address, make sure to update these values accordingly.
+These are the default OpenTelemetry ports used by Grafana Alloy. If your Alloy instance uses different ports or a remote address, ensure that you update these values accordingly.
+
+Alternatively, you can stand up an entire Grafana and Prometheus stack using Docker.
+
+- Ensure that Docker Desktop is installed on your computer.
+- Download the dockercompose.yml file from [HERE](https://github.com/aussiearef/grafana-udemy/tree/4e6875dd314bc3551c33d8b0bd018eaa27fd5230/docker).
+- Make sure the dockercompose.yml file is not in the root directory, otherwise your "docker compose" command will fail with a "permission denied" message. Copy the file to /home or /tempo or /shared or similar directories.
+- run "docker compose up -d"
+- Once the docker compose command is completed, visit Grafana via HTTP://localhost:3000
+- Use "admin" for both username and password.
+  
