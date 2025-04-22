@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "oCJMAzjwRF9rmtgn7EHnd2GKelrImxgFRW5WDraAsG0=",
+  "Source": "OrderService",
+  "BasePath": "_content/OrderService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
