@@ -1,4 +1,4 @@
-# Metric-Only Sample Application
+# Open Telemetry (Metric Only) Sample Micro Service
 
 The files in this directory belong to the online course:
 
