@@ -7,9 +7,6 @@ services:
       - ./tempo-data:/var/tempo
     ports:
       - "3200:3200"
-    entrypoint: sh -c "
-      wget --no-check-certificate -O /etc/tempo.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/tempo/tempo.yml &&
-      exec /tempo -config.file=/etc/tempo.yml"
 
   prometheus:
     image: prom/prometheus:latest
@@ -17,42 +14,33 @@ services:
       - ./shared/prometheus:/etc/prometheus
     ports:
       - "9090:9090"
-    entrypoint: sh -c "
-      wget --no-check-certificate -O /etc/prometheus/prometheus-local.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/prometheus/prometheus.yml &&
-      exec /bin/prometheus --config.file=/etc/prometheus/prometheus-local.yml --web.enable-remote-write-receiver"
 
   loki:
     image: grafana/loki:latest
-    command:
-      - "-config.file=/etc/loki/local-config.yaml"
     volumes:
       - ./shared/loki/chunks:/loki/chunks/
       - ./shared/loki/rules:/loki/rules/
     ports:
       - "3100:3100"
+    command:
+      - "-config.file=/etc/loki/local-config.yaml"
 
   promtail:
     image: grafana/promtail:latest
-    command:
-      - "-config.file=/etc/promtail/config.yml"
-      - ./shared/logs:/var/log
     depends_on:
       - loki
+    volumes:
+      - ./shared/logs:/var/log
+    command:
+      - "-config.file=/etc/promtail/config.yml"
 
   alloy:
     image: grafana/alloy:latest
-    command:
-      - "-config.file=/etc/alloy/config.alloy"
     volumes:
       - ./shared/alloy:/etc/alloy
     ports:
       - "4317:4317"
       - "4318:4318"
-    entrypoint: sh -c "
-      apt-get update -y &&
-      apt-get -y install wget &&
-      wget --no-check-certificate -O /etc/alloy/config.alloy https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/alloy/config.alloy &&
-      exec /bin/alloy run /etc/alloy/config.alloy"
 
   grafana:
     image: grafana/grafana:latest
@@ -67,12 +55,6 @@ services:
       - GF_HTTP_TLS_SKIP_VERIFY=true
     ports:
       - "3000:3000"
-    entrypoint: sh -c "
-      wget --no-check-certificate -O /etc/grafana/provisioning/dashboards/ShoeHub_Dashboard.json https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/ShoeHub_Dashboard.json &&
-      wget --no-check-certificate -O /etc/grafana/provisioning/dashboards/dashboards.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/dashboards.yml &&
-      wget --no-check-certificate -O /etc/grafana/provisioning/datasources/datasources.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/datasources.yml &&
-      chmod -R 755 /etc/grafana/provisioning &&
-      exec grafana-server --homepath=/usr/share/grafana -config=/etc/grafana/grafana.ini "
 
   shoehub:
     image: aussiearef/shoehub

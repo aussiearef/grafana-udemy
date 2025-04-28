@@ -1,18 +1,21 @@
 server:
   http_listen_port: 3200
   grpc_listen_port: 3300
+  log_level: info
+  health_check_path: /status
 
 distributor:
-  receivers: 
+  receivers:
     otlp:
       protocols:
         http:
-          endpoint: "0.0.0.0:4318"  # Replace 3200 with your desired port number
-
+          endpoint: "0.0.0.0:4318"
+        grpc:
+          endpoint: "0.0.0.0:4317"
 
 compactor:
   compaction:
-    block_retention: 48h                # configure total trace retention here
+    block_retention: 48h
 
 metrics_generator:
   registry:
@@ -20,32 +23,23 @@ metrics_generator:
       source: tempo
       cluster: linux-microservices
   storage:
-    path: /tmp/tempo/generator/wal
+    path: /var/tempo/generator/wal
     remote_write:
-      - url: http://admin:password@prometheus:9090/api/v1/write    # if you use as part of Docker Compose, use this line.
-      # - url: http://admin:password@localhost:9090/api/v1/write   # if you run locally, use this line.
+      - url: http://${PROMETHEUS_USER}:${PROMETHEUS_PASSWORD}@prometheus:9090/api/v1/write
         send_exemplars: true
 
 storage:
   trace:
-    backend: local                
+    backend: local
     local:
-      path: /tmp/tempo/traces      # Set to correct path on your computer
-    wal:
-      path: /tmp/tempo/wal         # Set to correct path on your computer
-
-#storage:
-#  trace:
-#    backend: s3                 
-#    s3:
-#      bucket: your-s3-bucket-name
-#      region: your-region
-#      access_key: your-access-key  # not needed if role_arn is used.
-#      secret_key: your-secret-key  # not needed if role_arn is used.
-#      role_arn: arn:aws:iam::123456789012:role/your-tempo-role
+      path: /var/tempo/traces
+      wal:
+        path: /var/tempo/wal
+    block:
+      index_downsample: true
+      encoding: snappy
 
 overrides:
   defaults:
     metrics_generator:
       processors: [service-graphs, span-metrics]
-    
