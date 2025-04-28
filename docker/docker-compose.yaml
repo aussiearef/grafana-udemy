@@ -72,7 +72,7 @@ services:
       wget --no-check-certificate -O /var/lib/grafana/dashboards/ShoeHub_Dashboard.json https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/ShoeHub_Dashboard.json &&
       wget --no-check-certificate -O /etc/grafana/provisioning/dashboards/dashboards.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/dashboards.yml &&
       wget --no-check-certificate -O /etc/grafana/provisioning/datasources/datasources.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/datasources.yml &&
-      exec /run.sh"
+      exec grafana-server --homepath=/usr/share/grafana -config=/etc/grafana/grafana.ini "
 
   shoehub:
     image: aussiearef/shoehub
