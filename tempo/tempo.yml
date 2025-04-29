@@ -25,7 +25,7 @@ metrics_generator:
   storage:
     path: /var/tempo/generator/wal
     remote_write:
-      - url: http://${PROMETHEUS_USER}:${PROMETHEUS_PASSWORD}@prometheus:9090/api/v1/write
+      - url: http://admin:password@prometheus:9090/api/v1/write
         send_exemplars: true
 
 storage:
