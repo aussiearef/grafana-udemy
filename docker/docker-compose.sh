@@ -34,7 +34,9 @@ curl -sSL -o shared/grafana/provisioning/datasources/datasources.yml https://raw
 
 if [ ! -d "tempo-data" ]; then
 # Download Loki configuration
-mkdir tempo-data    
+mkdir tempo-data 
+mkdir -p ./tempo-data/traces
+mkdir -p ./tempo-data/wal   
 fi
 
 # Set correct permissions
