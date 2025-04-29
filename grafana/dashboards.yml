@@ -8,4 +8,4 @@ providers:
     disableDeletion: false
     updateIntervalSeconds: 10
     options:
-      path: /etc/grafana/provisioning/dashboards/ShoeHub_Dashboard.json
+      path: /var/lib/grafana/dashboards/ShoeHub_Dashboard.json
