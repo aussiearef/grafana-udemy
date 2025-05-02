@@ -5,18 +5,16 @@ set -e
 echo "Preparing shared folders and downloading configuration files..."
 
 # Create all necessary shared folders
-if [ ! -d "shared" ]; then
 mkdir -p shared/tempo
 mkdir -p shared/prometheus
 mkdir -p shared/loki/chunks
 mkdir -p shared/loki/rules
 mkdir -p shared/logs
+mkdir -p shared/logs/shoehub
 mkdir -p shared/alloy
 mkdir -p shared/grafana/provisioning/datasources
 mkdir -p shared/grafana/provisioning/dashboards
 mkdir -p shared/grafana/dashboards
-fi
-
 
 # Download Tempo configuration
 curl -sSL -o shared/tempo/tempo.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/tempo/tempo.yml
@@ -32,19 +30,16 @@ curl -sSL -o shared/grafana/dashboards/ShoeHub_Dashboard.json https://raw.github
 curl -sSL -o shared/grafana/provisioning/dashboards/dashboards.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/dashboards.yml
 curl -sSL -o shared/grafana/provisioning/datasources/datasources.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/datasources.yml
 
-if [ ! -d "tempo-data" ]; then
-# Download Loki configuration
-mkdir tempo-data 
-mkdir -p ./tempo-data/traces
-mkdir -p ./tempo-data/wal   
-fi
+# Create Tempo data folders if not exist
+mkdir -p tempo-data/traces
+mkdir -p tempo-data/wal
 
 # Set correct permissions
 chmod -R 755 shared
 chmod -R 777 tempo-data
 
-
 echo "All files downloaded and permissions set."
-echo "You can now run: docker-compose up -d"
 
+
+echo "Now running: docker-compose up -d"
 docker-compose -f docker-compose.yaml up -d

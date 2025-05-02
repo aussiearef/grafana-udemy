@@ -16,3 +16,12 @@ scrape_configs:
         labels:
           job: varlogs
           __path__: /var/log/*log
+
+  - job_name: shoehub
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: shoehub
+          app: shoehub
+          __path__: /var/log/shoehub/log.txt

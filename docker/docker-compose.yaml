@@ -43,6 +43,8 @@ services:
     ports:
       - "4317:4317"
       - "4318:4318"
+    depends_on:
+      - tempo
 
   grafana:
     image: grafana/grafana:latest
@@ -64,11 +66,9 @@ services:
       - "8001:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://loki:3100/loki/api/v1/push"
-        loki-external-labels: "app=shoehub-api,container_name={{.Name}}"
+      - LOG_PATH=/app/logs/log.txt
+    volumes:
+    - ./shared/logs/shoehub:/app/logs
     depends_on:
       - loki
       - prometheus
@@ -79,11 +79,14 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
       - paymentservice
+      - alloy
 
   paymentservice:
     image: aussiearef/paymentservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - alloy
 
   stimulator:
     image: aussiearef/stimulator
