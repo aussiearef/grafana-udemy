@@ -42,6 +42,7 @@ mkdir -p tempo-data/wal
 # Set correct permissions
 chmod -R 755 shared
 chmod -R 777 tempo-data
+chmod -R 777 shared/logs/shoehub
 
 echo "All files downloaded and permissions set."
 

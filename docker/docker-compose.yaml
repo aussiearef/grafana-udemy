@@ -69,7 +69,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - LOG_PATH=/app/logs/log.txt
     volumes:
-    - ./shared/logs/shoehub:/app/logs
+    - ./shared/logs/shoehub:/app/logs:rw
     depends_on:
       - loki
       - prometheus
