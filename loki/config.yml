@@ -24,4 +24,4 @@ scrape_configs:
         labels:
           job: shoehub
           app: shoehub
-          __path__: /var/log/shoehub/log.txt
+          __path__: /var/log/shoehub/log*

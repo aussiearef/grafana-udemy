@@ -9,6 +9,7 @@ mkdir -p shared/tempo
 mkdir -p shared/prometheus
 mkdir -p shared/loki/chunks
 mkdir -p shared/loki/rules
+mkdir -p shared/promtail
 mkdir -p shared/logs
 mkdir -p shared/logs/shoehub
 mkdir -p shared/alloy
@@ -24,6 +25,10 @@ curl -sSL -o shared/prometheus/prometheus.yml https://raw.githubusercontent.com/
 
 # Download Alloy configuration
 curl -sSL -o shared/alloy/config.alloy https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/alloy/config.alloy
+
+# Download Promtail (for Loki) configuration
+curl -sSL -o shared/promtail/config.yml https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/loki/config.yml
+
 
 # Download Grafana dashboard and provisioning files
 curl -sSL -o shared/grafana/dashboards/ShoeHub_Dashboard.json https://raw.githubusercontent.com/aussiearef/grafana-udemy/main/grafana/ShoeHub_Dashboard.json

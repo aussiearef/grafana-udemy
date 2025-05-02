@@ -33,6 +33,7 @@ services:
       - loki
     volumes:
       - ./shared/logs:/var/log
+      - ./shared/promtail:/etc/promtail
     command:
       - "-config.file=/etc/promtail/config.yml"
 
