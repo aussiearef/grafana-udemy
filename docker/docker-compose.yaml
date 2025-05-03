@@ -16,6 +16,8 @@ services:
       - ./shared/prometheus:/etc/prometheus
     ports:
       - "9090:9090"
+    command: 
+      - "--web.enable-remote-write-receiver" 
 
   loki:
     image: grafana/loki:latest
