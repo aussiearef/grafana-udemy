@@ -10,7 +10,6 @@ otelcol.receiver.otlp "default" {
 
   output {
     traces  = [otelcol.processor.batch.default.input]
-    logs    = [otelcol.processor.batch.default_logs.input]  # Added logs processing
     metrics = [otelcol.processor.batch.default_metrics.input]  # Added metrics processing
   }
 }
@@ -21,11 +20,6 @@ otelcol.processor.batch "default" {
   }
 }
 
-otelcol.processor.batch "default_logs" {  # New batch processor for logs
-  output {
-    logs = [otelcol.exporter.otlphttp.loki.input]
-  }
-}
 
 otelcol.processor.batch "default_metrics" {  # New batch processor for metrics
   output {
@@ -43,16 +37,24 @@ otelcol.exporter.otlphttp "tempo" {
     }
 }
 
-otelcol.exporter.otlphttp "loki" {  # New exporter for logs
-    client {
-        endpoint = "http://loki:3100"
-        tls {
-            insecure             = true
-            insecure_skip_verify = true
-        }
-    }
-}
 
 otelcol.exporter.prometheus "default" {  # New exporter for metrics
     endpoint = "0.0.0.0:9090"
+}
+
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
+
+otelcol.receiver.filelog "default" {
+  include = ["/var/log/shoehub/*"]
+  output {
+    logs = [otelcol.exporter.loki.default.input]
+  }
+}
+
+otelcol.exporter.loki "default" {
+  forward_to = [loki.write.local.receiver]
 }
