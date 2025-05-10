@@ -42,6 +42,7 @@ services:
 
   alloy:
     image: grafana/alloy:latest
+    command: run /etc/alloy/config.alloy --stability.level="public-preview"
     volumes:
       - ./shared/alloy:/etc/alloy
     ports:
@@ -49,6 +50,7 @@ services:
       - "4318:4318"
     depends_on:
       - tempo
+      - loki
 
   grafana:
     image: grafana/grafana:latest
