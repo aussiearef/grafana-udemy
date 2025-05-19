@@ -1,0 +1,10 @@
+
+common:
+  storage:
+    backend: filesystem
+    filesystem:
+      dir: /var/tmp
+
+blocks_storage:
+  backend: filesystem
+  filesystem:

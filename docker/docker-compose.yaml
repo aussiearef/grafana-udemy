@@ -19,6 +19,19 @@ services:
     command: 
       - "--web.enable-remote-write-receiver" 
       - "--config.file=/etc/prometheus/prometheus.yml"
+  
+  mimir:
+    image: grafana/mimir:latest
+    volumes:
+      - ./shared/mimir:/etc/mimir
+      - ./mimir-data:/var/tmp
+    ports:
+      - "9009:9009"
+    command:
+      - "--config.file=/etc/mimir/config.yaml"
+    depends_on:
+      - prometheus
+
 
   loki:
     image: grafana/loki:latest
