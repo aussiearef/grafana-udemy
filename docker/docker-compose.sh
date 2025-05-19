@@ -55,4 +55,6 @@ echo "All files downloaded and permissions set."
 
 
 echo "Now running: docker-compose up -d"
-docker-compose -f docker-compose.yaml up -d
+docker compose -f docker-compose.yaml up -d
+
+

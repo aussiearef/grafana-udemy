@@ -24,7 +24,7 @@ services:
     image: grafana/mimir:latest
     volumes:
       - ./shared/mimir:/etc/mimir
-      - ./mimir-data:/var/tmp
+      - ./mimir-data:/var/mimir
     ports:
       - "9009:9009"
     command:
