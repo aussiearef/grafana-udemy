@@ -55,6 +55,17 @@ echo "All files downloaded and permissions set."
 
 
 echo "Now running: docker-compose up -d"
-docker compose -f docker-compose.yaml up -d
+
+# Default to modern Docker Compose
+DOCKER_CMD="docker compose"
+
+# Check for legacy flag
+if [[ "$1" == "--legacy" ]]; then
+    DOCKER_CMD="docker-compose"
+fi
+
+# Run the command
+$DOCKER_CMD -f docker-compose.yaml up -d
+
 
 

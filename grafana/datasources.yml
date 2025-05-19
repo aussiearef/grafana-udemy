@@ -10,6 +10,10 @@ datasources:
     type: loki
     access: proxy
     url: http://loki:3100
+  - name: Mimir
+    type: mimir
+    access: proxy
+    url: http://mimir:9009
   - name: Tempo
     type: tempo
     access: proxy
