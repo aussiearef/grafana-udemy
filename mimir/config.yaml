@@ -1,10 +1,10 @@
-
 common:
   storage:
     backend: filesystem
     filesystem:
-      dir: /var/mimir
+      dir: /var/mimir/common
 
 blocks_storage:
   backend: filesystem
   filesystem:
+    dir: /var/mimir/blocks
