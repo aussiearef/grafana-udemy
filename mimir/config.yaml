@@ -16,7 +16,5 @@ blocks_storage:
     dir: /var/mimir/blocks
 
 ingester:
-  lifecycler:
-    ring:
-      replication_factor: 1
-      
+  ring:
+    replication_factor: 1
