@@ -6,21 +6,27 @@ datasources:
     access: proxy
     url: http://admin:password@prometheus:9090
     isDefault: true
+
   - name: Loki
     type: loki
     access: proxy
     url: http://loki:3100
+
   - name: Mimir
     type: prometheus
     access: proxy
     url: http://mimir:9009/prometheus
+    jsonData:
+      httpHeaderName1: "X-Scope-OrgID"
+    secureJsonData:
+      httpHeaderValue1: "anonymous"
+
   - name: Tempo
     type: tempo
     access: proxy
-    basicAuth: true
     url: http://tempo:3200
     jsonData:
       tracesToMetrics:
         datasourceUid: 'Prometheus'
       serviceMap:
-          datasourceUid: 'Prometheus'
+        datasourceUid: 'Prometheus'
