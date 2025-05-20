@@ -11,7 +11,7 @@ datasources:
     access: proxy
     url: http://loki:3100
   - name: Mimir
-    type: mimir
+    type: prometheus
     access: proxy
     url: http://mimir:9009
   - name: Tempo
