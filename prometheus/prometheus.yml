@@ -21,4 +21,7 @@ alerting:
     - targets:
        - localhost:9093
 
+remote_write:
+  - url: http://mimir:9009/api/v1/push
+
 
