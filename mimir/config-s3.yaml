@@ -8,23 +8,56 @@ common:
   storage:
     backend: s3
     s3:
-      bucket_name: your-mimir-bucket
+      bucket_name: <your-bucket-name> # Replace with your S3 bucket name
       endpoint: s3.amazonaws.com # Use a specific endpoint if using non-default region or custom S3 provider
       region: ap-southeast-2     # Use your AWS region
-      access_key_id: YOUR_ACCESS_KEY
-      secret_access_key: YOUR_SECRET_KEY
+      access_key_id: 
+      secret_access_key: 
       insecure: false            # Set to true if using non-HTTPS S3-compatible storage (e.g., MinIO in dev)
 
 blocks_storage:
   backend: s3
   s3:
-    bucket_name: your-mimir-bucket
+    bucket_name: <your-blocks-bucket-name> # Replace with your S3 bucket name for blocks
     endpoint: s3.amazonaws.com
     region: ap-southeast-2
-    access_key_id: YOUR_ACCESS_KEY
-    secret_access_key: YOUR_SECRET_KEY
+    access_key_id: 
+    secret_access_key: 
+    insecure: false
+
+
+alertmanager_storage:
+  backend: s3
+  s3:
+    bucket_name: <your-alertmanager-bucket-name> # Replace with your S3 bucket name for Alertmanager
+    endpoint: s3.amazonaws.com
+    region: ap-southeast-2
+    access_key_id: 
+    secret_access_key: 
     insecure: false
 
 ingester:
   ring:
     replication_factor: 1
+    kvstore:
+      store: memberlist #consul, etcd, or memberlist
+
+distributor:
+  ring:
+    kvstore:
+      store: memberlist
+
+store_gateway:
+  sharding_ring:
+    kvstore:
+      store: memberlist
+
+ruler:
+  ring:
+    kvstore:
+      store: memberlist
+
+querier:
+  sharding_ring:
+    kvstore:
+      store: memberlist  # or etcd, consul
