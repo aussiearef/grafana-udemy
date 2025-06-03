@@ -1,0 +1,20 @@
+Install minikube on Mac OS:
+
+
+brew install minikube
+
+Minikube delete
+minikube start --driver=docker
+
+minikube addons enable ingress
+minikube addons enable dashboard
+
+
+kubectl get nodes
+minikube dashboard
+
+
+brew install helm
+
+
+
