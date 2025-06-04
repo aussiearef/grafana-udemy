@@ -1,0 +1,52 @@
+mimir:
+  structuredConfig:
+    multitenancy_enabled: true
+
+    server:
+      http_listen_port: 9009
+      #grpc_listen_port: 9095
+
+    common:
+      storage:
+        backend: s3
+        s3:
+          bucket_name: aref-grafana-mimir-blocks
+          endpoint: s3.amazonaws.com 
+          region: ap-southeast-2     
+          access_key_id: 
+          secret_access_key: 
+          insecure: false            
+
+    blocks_storage:
+      backend: s3
+      s3:
+        bucket_name: aref-grafana-mimir-common
+        endpoint: s3.amazonaws.com
+        region: ap-southeast-2
+        access_key_id: 
+        secret_access_key: 
+        insecure: false
+
+
+    ingester:
+      ring:
+        replication_factor: 1
+        kvstore:
+          store: memberlist 
+
+ingester:
+    replicas: 2
+querier:
+    replicas: 2
+store_gateway:
+  replicas: 2
+compactor:
+  replicas: 2
+distributor:
+  replicas: 2
+query_frontend:
+  replicas: 2
+ruler:
+  replicas: 2
+alertmanager:
+  replicas: 2
