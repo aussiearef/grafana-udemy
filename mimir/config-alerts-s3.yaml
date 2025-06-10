@@ -1,0 +1,71 @@
+multitenancy_enabled: true
+server:
+  http_listen_port: 9008
+  grpc_listen_port: 9095
+
+common:
+  storage:
+    backend: s3
+    s3:
+      bucket_name:  # Replace with your S3 bucket name
+      endpoint: s3.amazonaws.com # Use a specific endpoint if using non-default region or custom S3 provider
+      region: ap-southeast-2     # Use your AWS region
+      access_key_id: 
+      secret_access_key: 
+      insecure: false            # Set to true if using non-HTTPS S3-compatible storage (e.g., MinIO in dev)
+
+blocks_storage:
+  backend: s3
+  s3:
+    bucket_name:  # Replace with your S3 bucket name for blocks
+    endpoint: s3.amazonaws.com
+    region: ap-southeast-2
+    access_key_id: 
+    secret_access_key: 
+    insecure: false
+
+# --- Alerting related configurations ---
+ruler:
+  enable_api: true 
+  #enabled_tenants: [Tenant1] # to explicitly enable ruler for specific tenants
+  alertmanager_url: http://localhost:9008/alertmanager  # do not set if you deploy with Helm
+  ring:
+    kvstore:
+      store: memberlist
+  
+ruler_storage:
+  backend: s3
+  s3:
+    bucket_name:  # Replace with your S3 bucket name for ruler storage
+    endpoint: s3.amazonaws.com
+    region: ap-southeast-2
+    access_key_id: 
+    secret_access_key: 
+    insecure: false
+  storage_prefix: "/"
+  local:
+      directory: ""
+
+alertmanager:
+  enable_api: true
+  sharding_ring:
+    kvstore:
+      store: memberlist
+      prefix: alertmanagers/
+  fallback_config_file: ./fallback_alertmanager.yaml
+
+alertmanager_storage:
+  backend: s3
+  s3:
+    bucket_name:  # Replace with your S3 bucket name for alertmanager storage
+    endpoint: s3.amazonaws.com
+    region: ap-southeast-2
+    access_key_id: 
+    secret_access_key: 
+    insecure: false
+  storage_prefix: ""
+  
+
+ingester:
+  ring:
+    replication_factor: 1

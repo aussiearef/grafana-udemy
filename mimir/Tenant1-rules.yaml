@@ -1,0 +1,12 @@
+groups:
+  - name: shoehub.rules
+    interval: 1m
+    rules:
+      - alert: HighBootsSalesRate
+        expr: sum(rate(shoehub_sales{ShoeType="Boots"}[1m])) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High sales rate for Boots detected"
+          description: "The sales rate for Boots ({{ $value }} per second) exceeds 10."

@@ -1,0 +1,47 @@
+multitenancy_enabled: true
+server:
+  http_listen_port: 9008
+  grpc_listen_port: 9095
+common:
+  storage:
+    backend: filesystem
+    filesystem:
+      dir: /var/mimir/common
+blocks_storage:
+  backend: filesystem
+  filesystem:
+    dir: /var/mimir/blocks
+
+# --- Alerting related configurations ---
+ruler:
+  enable_api: false 
+  alertmanager_url: http://localhost:9008/alertmanager  # do not set if you deploy with Helm
+  ring:
+    kvstore:
+      store: memberlist
+  
+ruler_storage:
+  backend: filesystem
+  filesystem:
+    dir: /var/mimir/ruler
+  storage_prefix: ""
+  local:
+      directory: ""
+
+alertmanager:
+  enable_api: true
+  sharding_ring:
+    kvstore:
+      store: memberlist
+      prefix: alertmanagers/
+  fallback_config_file: /configs/fallback_alertmanager.yaml
+
+alertmanager_storage:
+  filesystem:
+    dir: alertmanager
+  storage_prefix: ""
+  
+
+ingester:
+  ring:
+    replication_factor: 1

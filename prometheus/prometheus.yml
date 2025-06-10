@@ -23,6 +23,8 @@ alerting:
 
 remote_write: # remove if you do not have Grafana Mimir
   - url: http://mimir:9009/api/v1/push  #replace with your Mimir URL e.g., localhost:9009
+    headers:
+      X-Scope-OrgID: "Tenant1"
     basic_auth: #remove if your Mimir does not require authentication
       username: "admin"
       password: "password"
