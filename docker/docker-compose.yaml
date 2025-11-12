@@ -1,7 +1,7 @@
 services:
 
   tempo:
-    image: grafana/tempo:latest
+    image: docker.io/grafana/tempo:latest
     volumes:
       - ./shared/tempo:/etc
       - ./tempo-data:/var/tempo
@@ -11,7 +11,7 @@ services:
 
 
   prometheus:
-    image: prom/prometheus:latest
+    image: docker.io/prom/prometheus:latest
     volumes:
       - ./shared/prometheus:/etc/prometheus
     ports:
@@ -19,9 +19,9 @@ services:
     command: 
       - "--web.enable-remote-write-receiver" 
       - "--config.file=/etc/prometheus/prometheus.yml"
-  
+
   mimir:
-    image: grafana/mimir:latest
+    image: docker.io/grafana/mimir:latest
     volumes:
       - ./shared/mimir:/etc/mimir
       - ./mimir-data:/var/mimir
@@ -44,7 +44,7 @@ services:
       - "-config.file=/etc/loki/local-config.yaml"
 
   promtail:
-    image: grafana/promtail:latest
+    image: docker.io/grafana/promtail:latest
     depends_on:
       - loki
     volumes:
@@ -54,7 +54,7 @@ services:
       - "-config.file=/etc/promtail/config.yml"
 
   alloy:
-    image: grafana/alloy:latest
+    image: docker.io/grafana/alloy:latest
     command: run /etc/alloy/config.alloy --stability.level="public-preview"
     volumes:
       - ./shared/alloy:/etc/alloy
@@ -66,7 +66,7 @@ services:
       - loki
 
   grafana:
-    image: grafana/grafana:latest
+    image: docker.io/grafana/grafana:latest
     volumes:
       - ./shared/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./shared/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
@@ -80,7 +80,7 @@ services:
       - "3000:3000"
 
   shoehub:
-    image: aussiearef/shoehub
+    image: docker.io/aussiearef/shoehub
     ports:
       - "8001:8080"
     environment:
@@ -93,7 +93,7 @@ services:
       - prometheus
 
   orderservice:
-    image: aussiearef/orderservice
+    image: docker.io/aussiearef/orderservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
@@ -101,14 +101,14 @@ services:
       - alloy
 
   paymentservice:
-    image: aussiearef/paymentservice
+    image: docker.io/aussiearef/paymentservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
       - alloy
 
   stimulator:
-    image: aussiearef/stimulator
+    image: docker.io/aussiearef/stimulator
     depends_on:
       - orderservice
       - paymentservice

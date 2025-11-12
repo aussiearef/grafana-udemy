@@ -53,7 +53,6 @@ chmod -R 777 shared/logs/shoehub
 
 echo "All files downloaded and permissions set."
 
-
 echo "Now running: docker-compose up -d"
 
 # Default to modern Docker Compose
@@ -66,6 +65,3 @@ fi
 
 # Run the command
 $DOCKER_CMD -f docker-compose.yaml up -d
-
-
-
